@@ -1,9 +1,9 @@
-//#include "Engine.h"
+#include "Engine.h"
 #include <glad/glad.h>
 #include <sdl.h>
-//#include <glm/vec3.cpp>
-//#include <glm/vec4.cpp>
-//#include <iostream>
+#include <glm/vec3.hpp>
+#include <glm/vec4.hpp>
+#include <iostream>
 
 //Renderer.h
 // delete #include texture
@@ -43,19 +43,19 @@
 // thirdparty/glad/src/glad.c
 
 // vertices
-const float vertices[] =
-{
-    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
-     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
-    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
-};
-
-const GLuint indices[] =
-{
-    0, 2, 1,
-    0, 3, 2
-};
+//const float vertices[] =
+//{
+//    -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+//     0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+//     0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f,
+//    -0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 1.0f
+//};
+//
+//const GLuint indices[] =
+//{
+//    0, 2, 1,
+//    0, 3, 2
+//};
 
 // vertex shader
 const char* vertexSource = R"(
@@ -93,7 +93,7 @@ const char* fragmentSource = R"(
 
 int main(int argc, char** argv)
 {
-    int result = SDL_Init(SDL_INIT_VIDEO);
+    /*int result = SDL_Init(SDL_INIT_VIDEO);
     if (result != 0)
     {
         SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
@@ -109,10 +109,10 @@ int main(int argc, char** argv)
 
 
 
-    /*SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
-    */
+    
 
 
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
@@ -126,98 +126,98 @@ int main(int argc, char** argv)
     {
         SDL_Log("Failed to create OpenGL context");
         exit(-1);
-    }
+    }*/
 
-    /*nc::Engine engine;
-    engine.Startup();
-    engine.Get<nc::Renderer>()->Create("OpenGL", 800, 600);*/
+    ag::Engine engine;
+    engine.StartUp();
+    engine.Get<ag::Renderer>()->Create("OpenGL", 800, 600);
 
 
 
-   /* nc::SeedRandom(static_cast<unsigned int>(time(nullptr)));
-    nc::SetFilePath("../resources");*/
+   ag::SeedRandom(static_cast<unsigned int>(time(nullptr)));
+   ag::SetFilePath("../resources");
 
     // set vertex shader
-    //GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    //glShaderSource(vertexShader, 1, &vertexSource, NULL);
-    //glCompileShader(vertexShader);
+    GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexShader, 1, &vertexSource, NULL);
+    glCompileShader(vertexShader);
 
 
 
-    //GLint status;
-    //glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
-    //if (status == GL_FALSE)
-    //{
-    //    char buffer[512];
-    //    glGetShaderInfoLog(vertexShader, 512, NULL, buffer);
-    //    std::cout << buffer;
-    //}
+    GLint status;
+    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE)
+    {
+        char buffer[512];
+        glGetShaderInfoLog(vertexShader, 512, NULL, buffer);
+        std::cout << buffer;
+    }
 
 
 
-    //// set fragment shader
-    //GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    //glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-    //glCompileShader(fragmentShader);
+    // set fragment shader
+    GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
+    glCompileShader(fragmentShader);
 
 
 
-    //GLint status;
-    //glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
-    //if (status == GL_FALSE)
-    //{
-    //    char buffer[512];
-    //    glGetShaderInfoLog(fragmentShader, 512, NULL, buffer);
-    //    std::cout << buffer;
-    //}
+    GLint status;
+    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &status);
+    if (status == GL_FALSE)
+    {
+        char buffer[512];
+        glGetShaderInfoLog(fragmentShader, 512, NULL, buffer);
+        std::cout << buffer;
+    }
 
 
 
-    //// create shader program
-    //GLuint shaderProgram = glCreateProgram();
-    //glAttachShader(shaderProgram, vertexShader);
-    //glAttachShader(shaderProgram, fragmentShader);
+    // create shader program
+    GLuint shaderProgram = glCreateProgram();
+    glAttachShader(shaderProgram, vertexShader);
+    glAttachShader(shaderProgram, fragmentShader);
 
 
-    ////
-    //glLinkProgram(shaderProgram);
-    //glUseProgram(shaderProgram);
+    //
+    glLinkProgram(shaderProgram);
+    glUseProgram(shaderProgram);
 
-    ////vertex array
-    //GLuint vao;
-    //glGenVerexArrays(1, &vao);
-    //glBindVertexArray(vao);
+    //vertex array
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
-    ////create vertedc buffer
-    //GLuint vbo;
-    //glGenBuffers(1, &vbo);
+    //create vertedc buffer
+    GLuint vbo;
+    glGenBuffers(1, &vbo);
 
 
-    ////
-    //glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    //
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
-    ////set vertex data into the vertex buffer
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //set vertex data into the vertex buffer
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    //GLuint ebo; //element buffer object
-    //glGenBuffers(1, &ebo);
-    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    //glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicies), indicies, GL_STATIC_DRAW);
+    GLuint ebo; //element buffer object
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    ////position
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
-    //glEnableVertexAttribArray(0);
+    //position
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0);
+    glEnableVertexAttribArray(0);
 
-    ////color
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float));
-    //glEnableVertexAttribArray(1);
+    //color
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    ////unifrom
-    //GLuint location = glGetUnifromLoaction(sahderProgram, "scale");
-    //float time = 0;
+    //uniform
+    GLuint location = glGetUniformLocation(shaderProgram, "scale");
+    float time = 0;
 
-    //GLuint tintLocation = glGetUnifromLoaction(sahderProgram, "tint");
-    //glm::vec3 tint{ 1.0f, 0.5f, 0.5f };
+    GLuint tintLocation = glGetUniformLocation(shaderProgram, "tint");
+    glm::vec3 tint{ 1.0f, 0.5f, 0.5f };
 
     bool quit = false;
     while (!quit)
@@ -242,32 +242,21 @@ int main(int argc, char** argv)
 
 
         SDL_PumpEvents();
-        glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
+        
 
+        time += 0.0001f;
+        glUniform1f(location, std::sin(time));
+        glUniform3fv(tintLocation, 1, &tint[0]);
+
+        engine.Get<ag::Renderer>()->BeginFrame();
+        //glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        glBegin(GL_TRIANGLES);
-        glColor3f(1.0f, 0.0f, 0.0f);
-        glVertex2f(-0.5f, -0.5f);
-        glColor3f(0.0f, 1.0f, 0.0f);
-        glVertex2f(0.0f, 0.5f);
-        glColor3f(0.0f, 0.0f, 1.0f);
-        glVertex2f(0.5f, -0.5f);
-        glEnd();
-        SDL_GL_SwapWindow(window);
-
-        //time += 0.0001f;
-        //glUniform1f(location, std::sin(time));
-        //glUniform3fv(tintLocation, 1, &tint[0])
-
-        //    engine.Get<nc::Renderer>()->BeginFrame();
-        ////glClearColor(0.85f, 0.85f, 0.85f, 1.0f);
-        //glClear(GL_COLOR_BUFFER_BIT);
 
 
-        //glDrawArrays(GL_LINES, 0, 3);
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawArrays(GL_LINES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        //engine.Get<nc::Renderer>()->EndFrame();
+        engine.Get<ag::Renderer>()->EndFrame();
     }
 
 
